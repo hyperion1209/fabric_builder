@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "fabric_builder"
+version = "0.1.0"
+description = "Modelling service for network fabrics"
+authors = ["hyperion1209 <hyperion1209@users.noreply.github.com>"]
+readme = "README.md"
+packages = [
+  { include = "fabric_builder", from = "src" },
+]
+include = [
+  # The version file is ignored by git so it needs to be explicitly included
+  "src/fabric_builder/_version.py",
+]
+
+[tool.poetry.scripts]
+
+[tool.poetry.dependencies]
+python = "^3.14"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.2"
+black = "^25.1.0"
+mypy = "^1.15.0"
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+pylint = "^3.3.5"
+ipython = "^9.0.2"
+isort = "^6.0.1"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "*"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+pattern = "default-unprefixed"
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["src/fabric_builder/_version.py"]
+
+[tool.poetry-dynamic-versioning.files."src/fabric_builder/_version.py"]
+persistent-substitution = true
+initial-content = """
+__version__ = "0.0.0"
+__version_tuple__ = (0, 0, 0)
+"""
+
+[tool.black]
+target-version = ["314"]
+line-length = 80
+
+[tool.flake8]
+max-line-length = 80
+
+[tool.isort]
+profile = "black"
+skip = [".venv", ".devbox"]
+
+[tool.mypy]
+files = "src"
+
+[tool.pytest.ini_options]
+addopts = "-v --junit-xml=pytest.xml --cov=src --cov-report term --cov-report xml"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[virtualenvs]
+in-project = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
